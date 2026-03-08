@@ -8,11 +8,11 @@ on:
         description: "macOS Version"
         required: true
         options:
-          - Tahoe v26.1
-          - Sequoia v15.7.2
-          - Sonoma v14.8.2
+          - Tahoe v26.3
+          - Sequoia v15.7.4
+          - Sonoma v14.8.4
           - Ventura v13.7.8
-          - Monterey v12.7.8
+          - Monterey v12.7.6
           - Big Sur v11.7.10
           - Catalina v10.15.7
           - Mojave v10.14.6
@@ -35,7 +35,7 @@ env:
 jobs:
   build:
     runs-on: macos-latest
-    if: github.repository == 'dimak47/Download-macOS'
+    if: github.repository == 'Comp-Labs/Download-macOS'
     steps:
       - uses: actions/checkout@v4
       
@@ -56,7 +56,7 @@ jobs:
       - if: github.event.inputs.file == 'dmg'
         name: Generate macOS DMG Installer
         run: |
-          sudo hdiutil create -o /tmp/'${{ env.installer_name }}' -size 20432m -volname '${{ env.installer_name }}' -layout SPUD -fs HFS+J
+          sudo hdiutil create -o /tmp/'${{ env.installer_name }}' -size 16384m -volname '${{ env.installer_name }}' -layout SPUD -fs HFS+J
           sudo hdiutil attach /tmp/'${{ env.installer_name }}'.dmg -noverify -mountpoint /Volumes/'${{ env.installer_name }}'
           sleep 10
           sudo /Applications/'Install macOS ${{ env.installer_name }}'.app/Contents/Resources/createinstallmedia --volume /Volumes/'${{ env.installer_name }}' --nointeraction
@@ -66,7 +66,7 @@ jobs:
       - if: github.event.inputs.file == 'iso'
         name: Generate macOS ISO Installer
         run: |
-          sudo hdiutil create -o /tmp/'${{ env.installer_name }}' -size 20432m -volname '${{ env.installer_name }}' -layout SPUD -fs HFS+J
+          sudo hdiutil create -o /tmp/'${{ env.installer_name }}' -size 16384m -volname '${{ env.installer_name }}' -layout SPUD -fs HFS+J
           sudo hdiutil attach /tmp/'${{ env.installer_name }}'.dmg -noverify -mountpoint /Volumes/'${{ env.installer_name }}'
           sleep 20
           sudo /Applications/'Install macOS ${{ env.installer_name }}'.app/Contents/Resources/createinstallmedia --volume /Volumes/'${{ env.installer_name }}' --nointeraction
